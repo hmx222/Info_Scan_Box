@@ -1,5 +1,6 @@
 import requests
 
+
 # TODO 高速读取
 
 # 为DirSearch保存文件
@@ -15,46 +16,73 @@ def Read(filename):
     return lines
 
 
-def DirSearch(domain, ftype, ua):
+def Readfile(type):
+    # 读取文件
+    if type == "php":
+        lines = Read("dict/php.txt")
+        return lines
+    elif type == "jsp":
+        lines = Read("dict/jsp.txt")
+        return lines
+    elif type == "asp":
+        lines = Read("dict/asp.txt")
+        return lines
+    elif type == "NONE":
+        return 0
+
+
+def DirSearch_main(domain,ua,getlist):
     li200 = []
     li300 = []
     li403 = []
 
-    # 读取文件
-    if ftype == "php":
-        lines = Read("dict/php.txt")
-    elif ftype == "jsp":
-        lines = Read("dict/jsp.txt")
-    elif ftype == "asp":
-        lines = Read("dict/asp.txt")
-    elif ftype == "NONE":
-        pass
+    #请求
 
-    # 请求
-    for i in lines:
+    for i in getlist:
         url = domain + i  # 拼接完整的url
-        response = requests.get(url=url, headers=ua,verify=False,timeout=80).status_code  # 获取状态码
-        print("%s状态为%d" % (url,response))
-        if 200 <= response < 300:
+        response = requests.get(url=url, headers=ua, verify=False, timeout=8).status_code  # 获取状态码
+        if response == 200:
+            print(url,"------",response)
+        elif 300 <= response < 400:
+            print(url,"------",response)
+        elif response == 403:
+            print(url, "------", response)
+
+
+
+        # print("%s状态为%d" % (url, response))
+
+
+        '''
+                if 200 <= response < 300:
             li200.append(url)
         elif 300 <= response < 400:
             li300.append(url)
         elif response == 403:
             li403.append(url)
+            
+        
+        '''
 
-    return li200, li300,li403
-    #  print("状态码为200：")
-    #  for a in li200:
-    #      print(a)
-#
-#  print("状态码为300：")
-#  for b in li300:
-#      print(b)
-#
-#  print("状态码为400：")
-#  for c in li400:
-#      print(c)
-#
-#  print("状态码为500：")
-#  for d in li500:
-#      print(d)
+
+
+'''
+        print("2xx的有：")
+        for s200 in li200:
+            print(s200)
+
+        print("3xx的有：")
+        for s300 in li300:
+            print(s300)
+
+        print("403的有：")
+        for s403 in li403:
+            print(403)
+
+
+'''
+
+
+
+
+

@@ -52814,3 +52814,7 @@
 //adminer.php
 //robots.txt/admin.php
 //admin/fckeditor/upload/config.php
+/admin
+/users
+/admin_login
+/adminLogin
