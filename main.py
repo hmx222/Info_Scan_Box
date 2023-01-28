@@ -37,13 +37,16 @@ if option == '1':
 
     lines = DirSearch.Readfile(GetType)
 
-    threads = []
+    # threads = []
+    pool = ThreadPoolExecutor(500)
     temp = func(lines, 500)
     for elist in temp:
-        threads.append(threading.Thread(target=DirSearch.DirSearch_main, args=(GetUrl, Ua, elist))
-                       )
-    for thread in threads:
-        thread.start()
+        pool.submit(DirSearch.DirSearch_main,GetUrl,Ua,elist)
+        # threads.append(threading.Thread(target=DirSearch.DirSearch_main, args=(GetUrl, Ua, elist))
+        #               )
+    # for thread in threads:
+        # thread.start()
+        
 
 
 
