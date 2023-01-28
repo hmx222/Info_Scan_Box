@@ -4,6 +4,8 @@ import SubDomain
 import SourceCodeScan.SMain
 import time
 import threading
+from concurrent.futures import ThreadPoolExecutor,Future
+
 
 
 def func(listTemp, n):
