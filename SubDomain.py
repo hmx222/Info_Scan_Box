@@ -1,18 +1,16 @@
 import requests
-import DirSearch
+import public_function
+from concurrent.futures import ThreadPoolExecutor, Future
 
-
-def PingTest(url, header, option):
-    lines = []
-    SubDoList200 = []
-    SubDoList300 = []
-    SubDoList400 = []
-
+def Readfold(option):
     if option == 1:
-        DirSearch.Read("folder/logical.txt")
+        lines = public_function.Read("folder/logical.txt")
+        return lines
     elif option == 2:
-        DirSearch.Read("folder/illogical.txt")
+        lines = public_function.Read("folder/illogical.txt")
+        return lines
 
+def PingTest(url, header,lines):
     for i in lines:
         url = i + "." + url
         try:
@@ -21,10 +19,9 @@ def PingTest(url, header, option):
             continue
         else:
             if 200 <= response < 300:
-                SubDoList200.append(url)
+                print(url,"---",response)
             elif 300 <= response < 400:
-                SubDoList300.append(url)
+                print(url,"---",response)
             elif 400 <= response < 500:
-                SubDoList400.append(url)
+                print(url,"---",response)
 
-    return SubDoList200, SubDoList300, SubDoList400

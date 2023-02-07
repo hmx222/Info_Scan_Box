@@ -1,46 +1,32 @@
 import requests
-
-
-# TODO 高速读取
+import public_function
 
 # 为DirSearch保存文件
-def Read(filename):
-    lines = []
-    file = open(filename, 'r')
-    while True:
-        text = file.readline().strip()
-        if not text:
-            break
-        lines.append(text)
-    file.close()
-    return lines
 
 
 def Readfile(type):
     # 读取文件
     if type == "php":
-        lines = Read("dict/php.txt")
+        lines = public_function.Read("dict/php.txt")
         return lines
     elif type == "jsp":
-        lines = Read("dict/jsp.txt")
+        lines = public_function.Read("dict/jsp.txt")
         return lines
     elif type == "asp":
-        lines = Read("dict/asp.txt")
+        lines = public_function.Read("dict/asp.txt")
         return lines
-    elif type == "NONE":
-        return 0
+    elif type == "dir":
+        lines = public_function.Read("dict/dir.txt")
+        return lines
 
 
 def DirSearch_main(domain,ua,getlist):
-    li200 = []
-    li300 = []
-    li403 = []
 
     #请求
 
     for i in getlist:
         url = domain + i  # 拼接完整的url
-        response = requests.get(url=url, headers=ua, verify=False, timeout=8).status_code  # 获取状态码
+        response = requests.get(url=url, headers=ua, verify=False, timeout=80).status_code  # 获取状态码
         if response == 200:
             print(url,"------",response)
         elif 300 <= response < 400:
