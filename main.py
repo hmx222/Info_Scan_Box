@@ -1,5 +1,4 @@
 import os
-
 import DirSearch
 import SubDomain
 import SourceCodeScan.SMain
@@ -16,7 +15,7 @@ print('''
 
 (1)目录扫描      （2）子域名探测    (3)网页源代码信息探测   
 (4)漏洞利用       (5)cms识别      (6)漏洞利用      
-(6)生成报告
+(6)免杀小工具
 ''')
 
 Ua = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv,2.0.1) Gecko/20100101 Firefox/4.0.1',
@@ -67,7 +66,13 @@ elif option == '2':
 
 elif option == '3':
     print("即将开始网页源代码信息的提取")
-    SourceCodeScan.SMain.SourceScan(GetUrl)
+    url,path=SourceCodeScan.SMain.SourceScan(GetUrl)
+    print("url网站有：")
+    for i in url:
+        print(i)
+    print("path：")
+    for k in path:
+        print(k)
 
 elif option == '4':
     print("您最好在kali linux下运行")

@@ -48,4 +48,4 @@ def SourceScan(url):
                 path = []  # 路径
                 annotation = []  # 注释
 
-    return urls, path
+    return urls, path,annotation
