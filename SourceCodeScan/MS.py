@@ -1,10 +1,37 @@
 import re
 
 
-def SearchUrl(context):  # 对于网站url的筛选
-    ex = '(https?://.*?\.[php|asp|aspx|jsp|json|action|html|js|txt|xml])'  # 对于网站类型的查找
-    response = re.findall(ex, context)
-    return response
+def extract_URL(JS):
+    pattern_raw = r"""
+	  (?:"|')                               # Start newline delimiter
+	  (
+	    ((?:[a-zA-Z]{1,10}://|//)           # Match a scheme [a-Z]*1-10 or //
+	    [^"'/]{1,}\.                        # Match a domainname (any character + dot)
+	    [a-zA-Z]{2,}[^"']{0,})              # The domainextension and/or path
+	    |
+	    ((?:/|\.\./|\./)                    # Start with /,../,./
+	    [^"'><,;| *()(%%$^/\\\[\]]          # Next character can't be...
+	    [^"'><,;|()]{1,})                   # Rest of the characters can't be
+	    |
+	    ([a-zA-Z0-9_\-/]{1,}/               # Relative endpoint with /
+	    [a-zA-Z0-9_\-/]{1,}                 # Resource name
+	    \.(?:[a-zA-Z]{1,4}|action)          # Rest + extension (length 1-4 or action)
+	    (?:[\?|/][^"|']{0,}|))              # ? mark with parameters
+	    |
+	    ([a-zA-Z0-9_\-]{1,}                 # filename
+	    \.(?:php|asp|aspx|jsp|json|
+	         action|html|js|txt|xml)             # . + extension
+	    (?:\?[^"|']{0,}|))                  # ? mark with parameters
+	  )
+	  (?:"|')                               # End newline delimiter
+	"""
+    pattern = re.compile(pattern_raw, re.VERBOSE)
+    result = re.finditer(pattern, str(JS))
+    if result == None:
+        return None
+    js_url = []
+    return [match.group().strip('"').strip("'") for match in result
+            if match.group() not in js_url]
 
 
 def SearchPhone(content):
@@ -24,16 +51,18 @@ def SearchPath(content):
     path = 'path:"(.*?)"'
     href = 'href="(.*?)"'
     src = 'src="(.*?)"'
-    list = [path,href,src]
+    list = [path, href, src]
     for i in list:
-        demo_list = re.findall(i,content)
+        demo_list = re.findall(i, content)
         new_list.extend(demo_list)
     return demo_list
 
+
 def Searchann(content):
     annotation = '(<!-- .*? -->)'
-    response=re.findall(annotation,content)
+    response = re.findall(annotation, content)
     return response
+
 
 def SearchEveryUrl(content):  # 更加强大的筛选
     path = '(https?://.*?)["|\>|\']'
@@ -42,7 +71,7 @@ def SearchEveryUrl(content):  # 更加强大的筛选
 
 
 def SearchOtherPa(content):
-    new_list=[]
+    new_list = []
     path = '"(\/[A-Za-z0-9-\.]+\/[A-Za-z0-9-\.#\?\=]+)"'  # 一级
     path2 = '"(\/?[A-Za-z0-9-\.]+\/[A-Za-z0-9-]+\/[A-Za-z0-9-\.#\?\=]+)"'  # 二级
     path3 = '"(\/?[A-Za-z0-9-\.]+\/[A-Za-z0-9-]+\/[A-Za-z0-9-]+\/[A-Za-z0-9-\.#\?\=]+)"'  # 三级
@@ -56,10 +85,10 @@ def SearchOtherPa(content):
     return new_list
 
 
-def SearchGovern(url):
+def SearchBlackList(url):
     rex = '.*?gov\.cn'
+    rex = 'http://www.w3.org'
     response = re.match(rex, url)
     if response:
-        print("我们发现了政府网站，准备抛出异常")
-        raise RuntimeError('政府网站--Error')
-
+        print("我们发现了黑名单网站，准备抛出异常")
+        raise RuntimeError('黑名单网站--Error')
