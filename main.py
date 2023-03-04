@@ -66,16 +66,7 @@ elif option == '2':
 
 elif option == '3':
     print("即将开始网页源代码信息的提取")
-    url,path,annotation = SourceCodeScan.SMain.SourceScan(GetUrl)
-
-    print("url网站有：")
-    for i in url:
-        print(i)
-    print("path：")
-    for k in path:
-        print(k)
-    for a in annotation:
-        print(a)
+    SourceCodeScan.SMain.SourceScan(GetUrl)
 
 elif option == '4':
     print("您最好在kali linux下运行")
