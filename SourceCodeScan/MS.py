@@ -48,7 +48,7 @@ def SearchEmail(content):
 
 
 def Searchann(content):
-    annotation = '(<!-- .*? -->)'
+    annotation = '(<!-- .*? -->)|[^\x00-\xff]'
     response = re.findall(annotation, content)
     return response
 
@@ -60,7 +60,7 @@ def SearchEveryUrl(content):  # 更加强大的筛选
 
 
 def SearchPath(content):
-    rex = "(\/\S+)"
+    rex = '[\'"](\/[^<>/\\\|:""\\ *\?]+){2,}[\'"]'
     response = re.findall(rex,content)
     return response
 

@@ -40,7 +40,8 @@ def SourceScan(url):
             ann = SourceCodeScan.MS.Searchann(geturl1)  # 对注释的搜索
             annotation.extend(ann)
 
-        geturl.extend(urls)
+        if input("是否需要深度查找：") == 'y':
+            geturl.extend(urls)
         print("以下是来自", i, "的url：")
         urls = list(set(urls))
         for url in urls:
@@ -51,6 +52,6 @@ def SourceScan(url):
         for pa1 in path:
             print(pa1)
 
-        print("以下是来自", i, "的注释：")
+        print("以下是来自", i, "的注释与汉字：")
         for ann1 in annotation:
             print(ann1)
