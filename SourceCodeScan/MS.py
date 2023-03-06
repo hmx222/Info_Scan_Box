@@ -53,12 +53,6 @@ def Searchann(content):
     return response
 
 
-def SearchEveryUrl(content):  # 更加强大的筛选
-    path = '(https?://.*?)["|\>|\']'
-    response = re.findall(path, content)
-    return response
-
-
 def SearchPath(content):
     rex = '[\'"](\/[^<>/\\\|:""\\ *\?]+){2,}[\'"]'
     response = re.findall(rex,content)

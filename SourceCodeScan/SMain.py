@@ -10,9 +10,12 @@ def SourceScan(url):
     annotation = []  # 注释
 
     get = SourceCodeScan.SMF.Ping(url)  # 拿到网页源代码
+    email = SourceCodeScan.MS.SearchEmail(get) # 对email的查找
+    phone = SourceCodeScan.MS.SearchPhone(get) # 对电话号码查找
     geturl = SourceCodeScan.MS.extract_URL(get)  # 对于网页源代码当中url的筛选(初次)
     path = SourceCodeScan.MS.SearchPath(get)  # 对于path内容的搜索
     ann = SourceCodeScan.MS.Searchann(url)  # 对注释的搜索
+
     print("以下是来自", url, "的url：")
     for url in geturl:
         print(url)
@@ -24,6 +27,14 @@ def SourceScan(url):
     print("以下是来自", url, "的注释：")
     for ann1 in ann:
         print(ann1)
+
+    print("以下是来自", url, "的email：")
+    for em in email:
+        print(em)
+
+    print("以下是来自", url, "的phone：")
+    for ph in phone:
+        print(ph)
 
     # url is a list
     for i in geturl:
