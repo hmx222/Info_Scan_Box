@@ -13,6 +13,8 @@ def SourceScan(url):
     email = SourceCodeScan.MS.SearchEmail(get) # 对email的查找
     phone = SourceCodeScan.MS.SearchPhone(get) # 对电话号码查找
     geturl = SourceCodeScan.MS.extract_URL(get)  # 对于网页源代码当中url的筛选(初次)
+    for a_url in geturl:
+        geturl = SourceCodeScan.MS.check_url(a_url, url)
     path = SourceCodeScan.MS.SearchPath(get)  # 对于path内容的搜索
     ann = SourceCodeScan.MS.Searchann(url)  # 对注释的搜索
 
@@ -51,7 +53,7 @@ def SourceScan(url):
             ann = SourceCodeScan.MS.Searchann(geturl1)  # 对注释的搜索
             annotation.extend(ann)
 
-        if input("是否需要深度查找：") == 'y':
+        if input("是否需要继续查找：") == 'y':
             geturl.extend(urls)
         print("以下是来自", i, "的url：")
         urls = list(set(urls))

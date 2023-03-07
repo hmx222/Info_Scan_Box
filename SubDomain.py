@@ -1,6 +1,7 @@
 import requests
 import public_function
-from concurrent.futures import ThreadPoolExecutor, Future
+requests.packages.urllib3.disable_warnings()
+
 
 def Readfold(option):
     if option == 1:
@@ -10,18 +11,39 @@ def Readfold(option):
         lines = public_function.Read("folder/illogical.txt")
         return lines
 
-def PingTest(url, header,lines):
+
+def PingTest(url, header, lines):
+
     for i in lines:
-        url = i + "." + url
+        if url[:7] == "http://":
+            if url[7:11] == "www.":
+                com_url = url[:7] + i + "." + url[11:]
+            else:
+                com_url = url[:7] + i + "." + url[7:]
+
+        elif url[:8] == "https://":
+            if url[8:12] == "www.":
+                com_url = url[:8] + i + "." + url[12:]
+            else:
+                com_url = url[:8] + i + "." + url[8:]
+        else:
+            com_url = None
+
         try:
-            response = requests.get(url=url, headers=header,timeout=8).status_code
+            response = requests.get(url=com_url, headers=header, verify=False).status_code
         except:
             continue
         else:
             if 200 <= response < 300:
-                print(url,"---",response)
+                print(url, "---", response)
             elif 300 <= response < 400:
-                print(url,"---",response)
+                print(url, "---", response)
             elif 400 <= response < 500:
-                print(url,"---",response)
+                print(url, "---", response)
 
+
+# PingTest("http://www.biancheng.net/",
+#         {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv,2.0.1) Gecko/20100101 Firefox/4.0.1',
+#      'referer': 'https://www.baidu.com',
+#      "Connection": "close"},
+#         ['a', 'b', 'c', 'd'])

@@ -33,6 +33,21 @@ def extract_URL(JS):
     return [match.group().strip('"').strip("'") for match in result
             if match.group() not in js_url]
 
+def check_url(url,geturl):
+    if url[:2] == "//":
+        if geturl[:7] == "http://":
+            url = "http://" + url
+            return url
+        if geturl[:8] == "https:":
+            url = "https:" + url
+            return url
+    if url[:1] == "/":
+        if geturl[:7] == "http://":
+            url = "http:/" + url
+            return url
+        if geturl[:8] == "https:":
+            url = "https:/" + url
+            return url
 
 def SearchPhone(content):
     phone = "^1(3[0-9]|5[0-3,5-9]|7[1-3,5-8]|8[0-9])\d{8}$"  # 对于电话号码的查找

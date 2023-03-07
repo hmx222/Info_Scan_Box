@@ -19,7 +19,8 @@ print('''
 ''')
 
 Ua = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv,2.0.1) Gecko/20100101 Firefox/4.0.1',
-      'referer': 'https://www.baidu.com', "Connection": "close"}
+      'referer': 'https://www.baidu.com',
+      "Connection": "close"}
 option = input("请输入您要执行的操作：")
 GetUrl = input("请输入url：")
 
@@ -46,7 +47,7 @@ if option == '1':
 
 
 elif option == '2':
-    print("输入域名（去除www与http://）")
+
     GetDicType = input("当前有大字典与小字典，您想要使用哪本字典。（1）小字典  （2）大字典：")
     GetThreadMax = int(input("请输入最大线程阈值："))
     GetListPar = int(input("请输入列表分割后每个列表的长度："))
@@ -72,7 +73,7 @@ elif option == '4':
     print("您最好在kali linux下运行")
     info = input("输入关键信息：")
     time.sleep(5)
-    os.system("searchsploit "+ info)
+    os.system("searchsploit " + info)
 elif option == '5':
     print("我们将开始运行CMSeek在你的kali linux当中")
     time.sleep(5)
