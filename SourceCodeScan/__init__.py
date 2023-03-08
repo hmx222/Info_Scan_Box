@@ -1,1 +1,1 @@
-__all__ = ["SMain", "SMF", "MS"]
+__all__ = ["SMain", "SMF"]

@@ -1,14 +1,14 @@
 import requests
-import public_function
+import function
 requests.packages.urllib3.disable_warnings()
 
 
 def Readfold(option):
     if option == 1:
-        lines = public_function.Read("folder/logical.txt")
+        lines = function.Read("folder/logical.txt")
         return lines
     elif option == 2:
-        lines = public_function.Read("folder/illogical.txt")
+        lines = function.Read("folder/illogical.txt")
         return lines
 
 

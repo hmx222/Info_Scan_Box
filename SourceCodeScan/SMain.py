@@ -1,26 +1,31 @@
 import SourceCodeScan.SMF
 import requests
-import SourceCodeScan.MS
+import function
 
 requests.packages.urllib3.disable_warnings()
 
 
-def SourceScan(url):
+def SourceScan(url, headers):
     urls = []  # url
     annotation = []  # 注释
 
     get = SourceCodeScan.SMF.Ping(url)  # 拿到网页源代码
-    email = SourceCodeScan.MS.SearchEmail(get) # 对email的查找
-    phone = SourceCodeScan.MS.SearchPhone(get) # 对电话号码查找
-    geturl = SourceCodeScan.MS.extract_URL(get)  # 对于网页源代码当中url的筛选(初次)
+    email = function.SearchEmail(get)  # 对email的查找
+    phone = function.SearchPhone(get)  # 对电话号码查找
+    geturl = function.extract_URL(get)  # 对于网页源代码当中url的筛选(初次)
     for a_url in geturl:
-        geturl = SourceCodeScan.MS.check_url(a_url, url)
-    path = SourceCodeScan.MS.SearchPath(get)  # 对于path内容的搜索
-    ann = SourceCodeScan.MS.Searchann(url)  # 对注释的搜索
+        geturl = function.check_url(a_url, url)
+    path = function.SearchPath(get)  # 对于path内容的搜索
+    ann = function.Searchann(url)  # 对注释的搜索
 
     print("以下是来自", url, "的url：")
     for url in geturl:
-        print(url)
+        try:
+            response = requests.get(url, headers, verify=False, timeout=8).status_code
+        except:
+            print(url, "NullStatus")
+        else:
+            print(url, "-" * 20, response)
 
     print("以下是来自", url, "的路径：")
     for pa1 in path:
@@ -41,16 +46,16 @@ def SourceScan(url):
     # url is a list
     for i in geturl:
         try:
-            SourceCodeScan.MS.SearchBlackList(i)  # 判断是否为黑名单网站，是的话主动抛出异常
+            function.SearchBlackList(i)  # 判断是否为黑名单网站，是的话主动抛出异常
         except:
             i = "error"
         else:
             geturl1 = SourceCodeScan.SMF.Ping(i)  # 对指定网站发起请求，拿到网页源代码
-            geturl2 = SourceCodeScan.MS.extract_URL(geturl1)  # 更加详细的url搜索
+            geturl2 = function.extract_URL(geturl1)  # 更加详细的url搜索
             urls.extend(geturl2)
-            pa = SourceCodeScan.MS.SearchPath(geturl1)  # 对于路径的搜索
+            pa = function.SearchPath(geturl1)  # 对于路径的搜索
             path.extend(pa)
-            ann = SourceCodeScan.MS.Searchann(geturl1)  # 对注释的搜索
+            ann = function.Searchann(geturl1)  # 对注释的搜索
             annotation.extend(ann)
 
         if input("是否需要继续查找：") == 'y':

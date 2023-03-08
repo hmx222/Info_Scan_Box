@@ -1,6 +1,23 @@
 import re
 
 
+
+def List_con(listTemp, n):
+    for i in range(0, len(listTemp), n):
+        yield listTemp[i:i + n]
+
+
+def Read(filename):
+    lines = []
+    file = open(filename, 'r',encoding='utf-8')
+    while True:
+        text = file.readline().strip()
+        if not text:
+            break
+        lines.append(text)
+    file.close()
+    return lines
+
 def extract_URL(JS):
     pattern_raw = r"""
 	  (?:"|')                               # Start newline delimiter
@@ -49,6 +66,7 @@ def check_url(url,geturl):
             url = "https:/" + url
             return url
 
+
 def SearchPhone(content):
     phone = "^1(3[0-9]|5[0-3,5-9]|7[1-3,5-8]|8[0-9])\d{8}$"  # 对于电话号码的查找
     response = re.findall(phone, content)
@@ -75,7 +93,12 @@ def SearchPath(content):
 
 
 def SearchBlackList(url):
-    rex = '(.*?gov\.cn)|(http://www.w3.org)'
-    response = re.match(rex, url)
-    if response:
-        raise RuntimeError('黑名单网站--Error')
+    black_list = Read("black.txt")
+    for i in black_list:
+        if i in url:
+            raise ValueError("黑名单")
+
+
+def Ana(content):
+    response = re.findall("<TD>(.*?)<\/TD>",content)
+    return response

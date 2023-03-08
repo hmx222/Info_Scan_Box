@@ -1,9 +1,6 @@
+import SourceCodeScan.SMain,function,SubDomain,DirSearch
 import os
-import DirSearch
-import SubDomain
-import SourceCodeScan.SMain
 import time
-import public_function
 from concurrent.futures import ThreadPoolExecutor, Future
 
 print('''
@@ -11,11 +8,11 @@ print('''
 | | _(_)_      _(_)
 | |/ / \ \ /\ / / |
 |   <| |\ V  V /| |
-|_|\_\_| \_/\_/ |_|  v2.2
+|_|\_\_| \_/\_/ |_|  v2.5
 
 (1)目录扫描      （2）子域名探测    (3)网页源代码信息探测   
-(4)漏洞利用       (5)cms识别      (6)漏洞利用      
-(6)免杀小工具
+(4)crt搜索       (5)待添加      (6)待添加      
+(6)待添加
 ''')
 
 Ua = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv,2.0.1) Gecko/20100101 Firefox/4.0.1',
@@ -32,7 +29,7 @@ if option == '1':
 
     # threads = []
     pool = ThreadPoolExecutor(GetThreadMax)
-    temp = public_function.List_con(lines, GetListPar)
+    temp = function.List_con(lines, GetListPar)
 
     for elist in temp:  # 开始遍历
         pool.submit(DirSearch.DirSearch_main, GetUrl, Ua, elist)
@@ -55,25 +52,27 @@ elif option == '2':
     pool = ThreadPoolExecutor(GetThreadMax)
     if GetDicType == '1':
         lines = SubDomain.Readfold(1)
-        temp = public_function.List_con(lines, GetListPar)
+        temp = function.List_con(lines, GetListPar)
         for elist in temp:
             pool.submit(SubDomain.PingTest, Ua, elist)
 
     elif GetDicType == '2':
         lines = SubDomain.Readfold(2)
-        temp = public_function.List_con(lines, GetListPar)
+        temp = function.List_con(lines, GetListPar)
         for elist in temp:
             pool.submit(SubDomain.PingTest, Ua, elist)
 
 elif option == '3':
     print("即将开始网页源代码信息的提取")
-    SourceCodeScan.SMain.SourceScan(GetUrl)
+    SourceCodeScan.SMain.SourceScan(GetUrl,headers=Ua)
 
 elif option == '4':
-    print("您最好在kali linux下运行")
-    info = input("输入关键信息：")
-    time.sleep(5)
-    os.system("searchsploit " + info)
+    f = open("read.txt")
+    result = function.Ana(f.read())
+    f.close()
+    for i in result:
+        print(i)
+
 elif option == '5':
     print("我们将开始运行CMSeek在你的kali linux当中")
     time.sleep(5)

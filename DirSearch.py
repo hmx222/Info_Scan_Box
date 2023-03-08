@@ -1,5 +1,5 @@
 import requests
-import public_function
+import function
 
 # 为DirSearch保存文件
 
@@ -7,16 +7,16 @@ import public_function
 def Readfile(type):
     # 读取文件
     if type == "php":
-        lines = public_function.Read("dict/php.txt")
+        lines = function.Read("dict/php.txt")
         return lines
     elif type == "jsp":
-        lines = public_function.Read("dict/jsp.txt")
+        lines = function.Read("dict/jsp.txt")
         return lines
     elif type == "asp":
-        lines = public_function.Read("dict/asp.txt")
+        lines = function.Read("dict/asp.txt")
         return lines
     elif type == "dir":
-        lines = public_function.Read("dict/dir.txt")
+        lines = function.Read("dict/dir.txt")
         return lines
 
 
