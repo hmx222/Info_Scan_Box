@@ -21,6 +21,10 @@
 
 #### 怎么使用？
 
+你首先要将你需要爬取的url放到urls.txt,如果你需要使用黑名单机制，请将黑名单url的关键词放在black.txt当中。
+
+read.txt是用来解析crt的源码的，你首先要在crt.sh当中搜索，然后将网页源代码放入read.txt当中
+
 ```shell
 ./Run.sh
 ```
