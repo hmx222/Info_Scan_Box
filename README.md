@@ -21,6 +21,8 @@
 
 #### 怎么使用？
 
+你首先要将你目标url放入urls.txt,假如你想要使用黑名单，就需要将黑名单url的关键词放入black.txt
+你假如想要使用crt爬取，你就首先要在 crt.sh 网站进行搜索，然后将其源代码放入read.txt
 ```shell
 ./Run.sh
 ```
