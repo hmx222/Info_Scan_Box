@@ -12,38 +12,36 @@ def Readfold(option):
         return lines
 
 
-def PingTest(url, header, lines):
+def PingTest(url:list, header, lines):
+    for k in url:
+        for i in lines:
+            if url[:7] == "http://":
+                if url[7:11] == "www.":
+                    com_url = k[:7] + i + "." + k[11:]
+                else:
+                    com_url = k[:7] + i + "." + k[7:]
 
-    for i in lines:
-        if url[:7] == "http://":
-            if url[7:11] == "www.":
-                com_url = url[:7] + i + "." + url[11:]
+            elif url[:8] == "https://":
+                if url[8:12] == "www.":
+                    com_url = k[:8] + i + "." + k[12:]
+                else:
+                    com_url = k[:8] + i + "." + k[8:]
             else:
-                com_url = url[:7] + i + "." + url[7:]
+                com_url = None
 
-        elif url[:8] == "https://":
-            if url[8:12] == "www.":
-                com_url = url[:8] + i + "." + url[12:]
+            try:
+                response = requests.get(url=com_url, headers=header, verify=False).status_code
+            except:
+                continue
             else:
-                com_url = url[:8] + i + "." + url[8:]
-        else:
-            com_url = None
-
-        try:
-            response = requests.get(url=com_url, headers=header, verify=False).status_code
-        except:
-            continue
-        else:
-            if 200 <= response < 300:
-                print(url, "---", response)
-            elif 300 <= response < 400:
-                print(url, "---", response)
-            elif 400 <= response < 500:
-                print(url, "---", response)
+                if 200 <= response < 300:
+                    function.write(k+"---"+response)
+                    print(k, "-----", response)
+                elif 300 <= response < 400:
+                    function.write(k+"-----"+response)
+                    print(k, "-----", response)
+                elif 400 <= response < 500:
+                    function.write(k+"-----"+response)
+                    print(k, "-----", response)
 
 
-# PingTest("http://www.biancheng.net/",
-#         {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv,2.0.1) Gecko/20100101 Firefox/4.0.1',
-#      'referer': 'https://www.baidu.com',
-#      "Connection": "close"},
-#         ['a', 'b', 'c', 'd'])

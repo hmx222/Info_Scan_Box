@@ -1,6 +1,7 @@
 import requests
 import function
 
+
 # 为DirSearch保存文件
 
 
@@ -20,24 +21,20 @@ def Readfile(type):
         return lines
 
 
-def DirSearch_main(domain,ua,getlist):
-
-    #请求
-
-    for i in getlist:
-        url = domain + i  # 拼接完整的url
-        response = requests.get(url=url, headers=ua, verify=False, timeout=80).status_code  # 获取状态码
-        if response == 200:
-            print(url,"------",response)
-        elif 300 <= response < 400:
-            print(url,"------",response)
-        elif response == 403:
-            print(url, "------", response)
-
-
+def DirSearch_main(domain:list, ua:dict, getlist):
+    # 请求
+    for k in domain:
+        for i in getlist:
+            url = k + i  # 拼接完整的url
+            response = requests.get(url=url, headers=ua, verify=False, timeout=80).status_code  # 获取状态码
+            if response == 200:
+                print(url, "------", response)
+            elif 300 <= response < 400:
+                print(url, "------", response)
+            elif response == 403:
+                print(url, "------", response)
 
         # print("%s状态为%d" % (url, response))
-
 
         '''
                 if 200 <= response < 300:
@@ -49,7 +46,6 @@ def DirSearch_main(domain,ua,getlist):
             
         
         '''
-
 
 
 '''
@@ -67,8 +63,3 @@ def DirSearch_main(domain,ua,getlist):
 
 
 '''
-
-
-
-
-

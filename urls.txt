@@ -1,1 +1,1 @@
-http://example.com
+http://192.168.122.143/damicms_v5.9.9/

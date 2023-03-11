@@ -1,22 +1,29 @@
 import re
 
 
-
-def List_con(listTemp, n):
+def list_con(listTemp, n):
     for i in range(0, len(listTemp), n):
         yield listTemp[i:i + n]
 
 
 def Read(filename):
     lines = []
-    file = open(filename, 'r',encoding='utf-8')
+    file = open(filename, 'r', encoding='utf-8')
     while True:
         text = file.readline().strip()
         if not text:
             break
+        if text[0] == "#":
+            continue
+        text = text.split(" ")[0]
         lines.append(text)
     file.close()
     return lines
+
+def write(content:str, type: str):
+    f = open('urls.txt', type)
+    f.write(content)
+    f.close()
 
 def extract_URL(JS):
     pattern_raw = r"""
@@ -50,7 +57,8 @@ def extract_URL(JS):
     return [match.group().strip('"').strip("'") for match in result
             if match.group() not in js_url]
 
-def check_url(url,geturl):
+
+def check_Url(url, geturl):
     if url[:2] == "//":
         if geturl[:7] == "http://":
             url = "http://" + url
@@ -79,8 +87,7 @@ def SearchEmail(content):
     return response
 
 
-
-def Searchann(content):
+def searCha(content):
     annotation = '(<!-- .*? -->)|[^\x00-\xff]'
     response = re.findall(annotation, content)
     return response
@@ -88,7 +95,7 @@ def Searchann(content):
 
 def SearchPath(content):
     rex = '[\'"](\/[^<>/\\\|:""\\ *\?]+){2,}[\'"]'
-    response = re.findall(rex,content)
+    response = re.findall(rex, content)
     return response
 
 
@@ -100,5 +107,10 @@ def SearchBlackList(url):
 
 
 def Ana(content):
-    response = re.findall("<TD>(.*?)<\/TD>",content)
+    response = re.findall("<TD>(.*?)<\/TD>", content)
+    return response
+
+
+def tileScan(content):
+    response = re.findall("<title>(.*?)</title>",content)
     return response
