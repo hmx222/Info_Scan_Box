@@ -4,17 +4,38 @@ from tkinter.ttk import Separator
 from concurrent.futures import ThreadPoolExecutor, Future
 from tkinter import ttk
 
-print('''
- _    _          _ 
-| | _(_)_      _(_)
-| |/ / \ \ /\ / / |
-|   <| |\ V  V /| |
-|_|\_\_| \_/\_/ |_|  v2.8.1
+window = tkinter.Tk()
+window.title("hi,记得按时吃饭")
+window.geometry('800x600+200+200')
+variable = tkinter.StringVar()
 
-(1)目录扫描      （2）子域名探测    (3)网页源代码信息探测   
-(4)crt搜索       (5)待添加      (6)待添加      
-(6)待添加
-''')
+style = ttk.Style(window)
+style.configure('left-tab.TNotebook', tabposition='ws')
+
+notebook = tkinter.ttk.Notebook(window,style='left-tab.TNotebook')
+
+tkinter.Entry(window).place(x=200,y=10,width=550,height=30)
+tkinter.Button(window,text="开始执行",padx=50,pady=30).place(x=200,y=500)
+
+sourceView = tkinter.Frame(notebook)
+subDomain = tkinter.Frame(notebook)
+folderScan = tkinter.Frame(notebook)
+crtSearch = tkinter.Frame(notebook)
+
+notebook.add(sourceView, text='源代码信息爬取')
+notebook.add(subDomain, text='子域名扫描')
+notebook.add(folderScan,text='目录扫描')
+notebook.add(crtSearch,text='crt探测')
+
+notebook.pack(anchor='w',fill='x')
+
+# tkinter.OptionMenu(window,variable,*[threads for threads in range(1,50)]).place(x=500,y=500)
+
+Separator(window,orient="vertical").pack(padx=200,pady=5,fill='y',expand=True,anchor='w')
+
+tkinter.Button(window,text="结束执行",padx=50,pady=30).place(x=500,y=500)
+
+window.mainloop()
 
 Ua = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv,2.0.1) Gecko/20100101 Firefox/4.0.1',
       'referer': 'https://www.baidu.com',
